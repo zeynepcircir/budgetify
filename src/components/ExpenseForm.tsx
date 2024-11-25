@@ -1,116 +1,79 @@
 import { useState } from "react";
 
-type ExpenseFormProps = {
-  onClose: () => void; 
-  editingExpense?: {
-    id: number;
-    amount: number;
-    description: string;
-    date: string;
-    category: string;
-    type: "income" | "expense";
-  }; 
-  addExpense: (expense: any) => void; 
-  editExpense: (id: number, updatedExpense: any) => void; 
-};
-
-const ExpenseForm: React.FC<ExpenseFormProps> = ({
-  onClose,
-  editingExpense,
-  addExpense,
-  editExpense,
-}) => {
-  const [amount, setAmount] = useState(editingExpense?.amount || 0);
-  const [description, setDescription] = useState(
-    editingExpense?.description || ""
-  );
-  const [date, setDate] = useState(editingExpense?.date || "");
-  const [category, setCategory] = useState(editingExpense?.category || "");
-  const [type, setType] = useState<"income" | "expense">(
-    editingExpense?.type || "expense"
+const ExpenseForm = ({ onAddExpense, onClose, editingExpense, onEditExpense }: any) => {
+  const [formState, setFormState] = useState(
+    editingExpense || { description: "", amount: 0, category: "", type: "expense" }
   );
 
-  const handleSubmit = () => {
-    if (!amount || !description || !date || !category) {
-      alert("Lütfen tüm alanları doldurun!");
-      return;
-    }
-
-    const newExpense = {
-      id: editingExpense?.id || Date.now(),
-      amount,
-      description,
-      date,
-      category,
-      type,
-    };
-
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     if (editingExpense) {
-      editExpense(editingExpense.id, newExpense); 
+      onEditExpense(editingExpense.id, formState); // Use the correct prop here
     } else {
-      addExpense(newExpense); 
+      onAddExpense({ ...formState, id: Date.now() }); // Add new expense
     }
-
-    onClose(); 
+    onClose();
   };
 
   return (
-    <div className="p-4 bg-gray-100 rounded">
-      <h2 className="text-xl font-bold mb-4">
-        {editingExpense ? "Gider Düzenle" : "Yeni Gider Ekle"}
-      </h2>
-      <div className="mb-4">
+    <form onSubmit={handleSubmit} className="space-y-4 p-4 bg-gray-100 rounded shadow">
+      <div>
+        <label className="block mb-1 font-bold">Description</label>
+        <input
+          type="text"
+          value={formState.description}
+          onChange={(e) => setFormState({ ...formState, description: e.target.value })}
+          className="w-full px-3 py-2 border rounded"
+          required
+        />
+      </div>
+      <div>
+        <label className="block mb-1 font-bold">Amount</label>
         <input
           type="number"
-          placeholder="Tutar"
-          value={amount}
-          onChange={(e) => setAmount(Number(e.target.value))}
-          className="w-full px-4 py-2 border rounded"
+          value={formState.amount}
+          onChange={(e) => setFormState({ ...formState, amount: Number(e.target.value) })}
+          className="w-full px-3 py-2 border rounded"
+          required
         />
       </div>
-      <div className="mb-4">
+      <div>
+        <label className="block mb-1 font-bold">Category</label>
         <input
           type="text"
-          placeholder="Açıklama"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          className="w-full px-4 py-2 border rounded"
+          value={formState.category}
+          onChange={(e) => setFormState({ ...formState, category: e.target.value })}
+          className="w-full px-3 py-2 border rounded"
+          required
         />
       </div>
-      <div className="mb-4">
-        <input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          className="w-full px-4 py-2 border rounded"
-        />
-      </div>
-      <div className="mb-4">
-        <input
-          type="text"
-          placeholder="Kategori"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          className="w-full px-4 py-2 border rounded"
-        />
-      </div>
-      <div className="mb-4">
+      <div>
+        <label className="block mb-1 font-bold">Type</label>
         <select
-          value={type}
-          onChange={(e) => setType(e.target.value as "income" | "expense")}
-          className="w-full px-4 py-2 border rounded"
+          value={formState.type}
+          onChange={(e) => setFormState({ ...formState, type: e.target.value })}
+          className="w-full px-3 py-2 border rounded"
         >
-          <option value="income">Gelir</option>
-          <option value="expense">Gider</option>
+          <option value="income">Income</option>
+          <option value="expense">Expense</option>
         </select>
       </div>
-      <button
-        onClick={handleSubmit}
-        className="px-4 py-2 bg-blue-500 text-white rounded"
-      >
-        {editingExpense ? "Güncelle" : "Ekle"}
-      </button>
-    </div>
+      <div className="flex justify-between items-center">
+        <button
+          type="submit"
+          className="px-4 py-2 bg-blue-500 text-white rounded"
+        >
+          {editingExpense ? "Edit Expense" : "Add Expense"}
+        </button>
+        <button
+          type="button"
+          onClick={onClose}
+          className="px-4 py-2 bg-gray-500 text-white rounded"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
   );
 };
 

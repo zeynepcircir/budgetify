@@ -1,66 +1,57 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useState, useContext } from "react";
 
+type Category = {
+  id: number;
+  name: string;
+  limit: number; // Kategori limiti
+  spent: number; // Harcanan toplam tutar
+};
 
 type Expense = {
   id: number;
+  type: "income" | "expense";
+  category: string;
   amount: number;
   description: string;
   date: string;
-  category: string;
-  type: "income" | "expense"; 
 };
-
 
 type GlobalContextType = {
+  categories: Category[];
   expenses: Expense[];
+  addCategory: (category: Category) => void;
   addExpense: (expense: Expense) => void;
-  editExpense: (id: number, updatedExpense: Expense) => void;
-  deleteExpense: (id: number) => void;
 };
-
 
 const GlobalContext = createContext<GlobalContextType | undefined>(undefined);
 
 export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [expenses, setExpenses] = useState<Expense[]>([]); 
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [expenses, setExpenses] = useState<Expense[]>([]);
 
-
-  const addExpense = (expense: Expense) => {
-    setExpenses((prevExpenses) => [...prevExpenses, expense]);
+  const addCategory = (category: Category) => {
+    setCategories((prev) => [...prev, category]);
   };
 
-
-  const editExpense = (id: number, updatedExpense: Expense) => {
-    setExpenses((prevExpenses) =>
-      prevExpenses.map((expense) =>
-        expense.id === id ? { ...expense, ...updatedExpense } : expense
+  const addExpense = (expense: Expense) => {
+    setExpenses((prev) => [...prev, expense]);
+    setCategories((prev) =>
+      prev.map((cat) =>
+        cat.name === expense.category
+          ? { ...cat, spent: cat.spent + expense.amount }
+          : cat
       )
     );
   };
 
-
-  const deleteExpense = (id: number) => {
-    setExpenses((prevExpenses) =>
-      prevExpenses.filter((expense) => expense.id !== id)
-    );
-  };
-
   return (
-    <GlobalContext.Provider
-      value={{
-        expenses,
-        addExpense,
-        editExpense,
-        deleteExpense,
-      }}
-    >
+    <GlobalContext.Provider value={{ categories, expenses, addCategory, addExpense }}>
       {children}
     </GlobalContext.Provider>
   );
 };
-
 
 export const useGlobalContext = () => {
   const context = useContext(GlobalContext);

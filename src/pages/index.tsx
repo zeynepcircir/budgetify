@@ -17,7 +17,7 @@ export default function Home() {
         </div>
         <div className="flex space-x-4 justify-center">
           <button
-            onClick={() => router.push("/signup")}
+            onClick={() => router.push("/register")}
             className="px-6 py-2 bg-green-500 rounded text-black hover:bg-green-600"
           >
             Hemen kaydol →

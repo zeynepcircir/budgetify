@@ -19,3 +19,20 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+
+html {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.light {
+  --bg-color: #f9fafb;
+  --text-color: #1a202c;
+}
+
+.dark {
+  --bg-color: #1a202c;
+  --text-color: #f9fafb;
+}
+
+
