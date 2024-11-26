@@ -1,4 +1,4 @@
- <img src="https://github.com/zeynepcircir/budgetify/public/x.png" alt="Image 3" width="1000">
+ <img src="https://github.com/zeynepcircir/budgetify/blob/ui-restructure/public/x.png" alt="Image 3" width="1000">
 
 
 
