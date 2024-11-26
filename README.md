@@ -1,8 +1,8 @@
+ <img src="https://github.com/zeynepcircir/budgetify/blob/ui-restructure/public/login.png" alt="Image 3" width="1000">
  <img src="https://github.com/zeynepcircir/budgetify/blob/ui-restructure/public/x.png" alt="Image 3" width="1000">
-
-
-
-
+ <img src="https://github.com/zeynepcircir/budgetify/blob/ui-restructure/public/grafikler.png" alt="Image 3" width="1000">
+ <img src="https://github.com/zeynepcircir/budgetify/blob/ui-restructure/public/harcamalar.png" alt="Image 3" width="1000">
+ <img src="https://github.com/zeynepcircir/budgetify/blob/ui-restructure/public/d%C3%BCzenle.png" alt="Image 3" width="1000">
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
 
