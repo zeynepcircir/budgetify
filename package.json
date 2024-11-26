@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@types/chart.js": "^2.9.41",
     "autoprefixer": "^10.4.20",
     "chart.js": "^4.4.6",
     "date-fns": "^4.1.0",

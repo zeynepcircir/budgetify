@@ -3,8 +3,8 @@ import React, { createContext, useState, useContext } from "react";
 type Category = {
   id: number;
   name: string;
-  limit: number; // Kategori limiti
-  spent: number; // Harcanan toplam tutar
+  limit: number; 
+  spent: number; 
 };
 
 type Expense = {
